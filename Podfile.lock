@@ -1,0 +1,13 @@
+PODS:
+  - SwiftyJSON (2.3.2)
+  - YYText (0.9.19)
+
+DEPENDENCIES:
+  - SwiftyJSON (~> 2.3.2)
+  - YYText (~> 0.9.19)
+
+SPEC CHECKSUMS:
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  YYText: b823b71b99b526c4a81029ecb59f3d8172ed5c9a
+
+COCOAPODS: 0.39.0
