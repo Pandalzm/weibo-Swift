@@ -27,11 +27,12 @@ private struct PandaScreenSize {
                     Static.size.height = Static.size.width
                     Static.size.width = tmp
                     }
-                }
-            return Static.size
             }
+            return Static.size
+        }
     }
 }
+
 
 public func kScreenWidth() -> CGFloat {
     return PandaScreenSize().kScreenWidth
@@ -40,4 +41,36 @@ public func kScreenWidth() -> CGFloat {
 public func kScreenHeight() -> CGFloat {
     return PandaScreenSize().kScreenHeight
 }
+
+public func PandaScreenScale() -> CGFloat {
+    struct Static {
+        static var onceToken: dispatch_once_t = 0
+        static var scale: CGFloat = CGFloat()
+    }
+    dispatch_once(&Static.onceToken) { () -> Void in
+        Static.scale = UIScreen.mainScreen().scale
+    }
+    return Static.scale
+}
+
+public func CGFloatPixelFloor(value: CGFloat) -> CGFloat {
+    let scale = PandaScreenScale()
+    return round(value * scale) / scale
+}
+
+public func UIEdgeInsetPixelFloor(insets: UIEdgeInsets) -> UIEdgeInsets {
+    var insets = insets
+    insets.top = CGFloatPixelFloor(insets.top)
+    insets.left = CGFloatPixelFloor(insets.left)
+    insets.bottom = CGFloatPixelFloor(insets.bottom)
+    insets.right = CGFloatPixelFloor(insets.right)
+    return insets
+}
+
+/// round point value for pixel-aligned
+public func CGSizePixelRound(size: CGSize) -> CGSize {
+    let scale = PandaScreenScale()
+    return CGSizeMake(ceil(size.width * scale) / scale, ceil(size.height * scale) / scale)
+}
+
 

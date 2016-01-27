@@ -1,13 +1,22 @@
 PODS:
+  - Kingfisher (2.0.0)
   - SwiftyJSON (2.3.2)
+  - YYCache (0.9.5)
+  - YYImage (0.9.3)
   - YYText (0.9.19)
 
 DEPENDENCIES:
+  - Kingfisher (~> 2.0)
   - SwiftyJSON (~> 2.3.2)
+  - YYCache (~> 0.9.5)
+  - YYImage (~> 0.9.3)
   - YYText (~> 0.9.19)
 
 SPEC CHECKSUMS:
+  Kingfisher: 67d280b39e878afbd467c80953924a61950c45e4
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  YYCache: 3ddcc49c387655f077c4e1b3708ed5ed71c79be2
+  YYImage: f831ce12f2bf5ce35137f6079a4b9cb4e91eb0ef
   YYText: b823b71b99b526c4a81029ecb59f3d8172ed5c9a
 
 COCOAPODS: 0.39.0

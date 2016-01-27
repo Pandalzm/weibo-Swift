@@ -84,10 +84,16 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/SwiftyJSON.framework"
+  install_framework "Pods/YYCache.framework"
+  install_framework "Pods/YYImage.framework"
   install_framework "Pods/YYText.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods/Kingfisher.framework"
   install_framework "Pods/SwiftyJSON.framework"
+  install_framework "Pods/YYCache.framework"
+  install_framework "Pods/YYImage.framework"
   install_framework "Pods/YYText.framework"
 fi

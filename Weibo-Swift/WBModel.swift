@@ -9,11 +9,22 @@
 import Foundation
 import SwiftyJSON
 
+enum WBUserVerifyType {
+    ///< 没有认证
+    case WBUserVerifyTypeNone
+    ///< 个人认证,黄V
+    case WBUserVerifyTypeStandard
+    ///< 官方认证,蓝V
+    case WBUserVerifyTypeOrganization
+    ///< 达人认证,红色星星
+    case WBUserVerifyTypeClub
+}
 
-public enum WBPictureBadgeType {
-    case WBPictureBadgeTypeNone     ///< normal
-    case WBPictureBadgeTypeLong     ///< long photo
-    case WBPictureBadgeTypeGIF      ///< gif
+
+enum WBPictureBadgeType {
+    case WBPictureBadgeTypeNone     ///< 正常
+    case WBPictureBadgeTypeLong     ///< 长图
+    case WBPictureBadgeTypeGIF      ///< GIF图片
 
 }
 
@@ -26,7 +37,7 @@ class WBPageInfo {
     
     init? (json: JSON) {
         self.pageTitle = json["page_title"].stringValue
-        self.pageID = json["object_id"].stringValue
+        self.pageID = json["page_id"].stringValue
         self.pageDesc = json["page_desc"].stringValue
         self.tips = json["tips"].stringValue
         self.pagePic = NSURL(string: json["page_pic"].stringValue)!
@@ -67,11 +78,12 @@ class WBStatusTitle {
  */
 class WBURL {
     
-    var urlTitle: String
-    var urlType: Int32  ///< 0:url 36:location 39:video/photo
+    var urlTitle: String        // 标题
+    var urlType: Int32          // 0:url 36:地址 39:视频／图片
+    var urlTypeURL: String      // 链接类型中的图片URL 
     var shortURL: String
     var originURL: String
-    var urlTypeURL: String
+    var pageID: String
     var picIds: Array<JSON>
     var pics: [WBPicture?] = []
     init? (json: JSON) {
@@ -80,6 +92,7 @@ class WBURL {
         self.shortURL = json["short_url"].stringValue
         self.originURL = json["ori_url"].stringValue
         self.urlTypeURL = json["url_type_pic"].stringValue
+        self.pageID = json["page_id"].stringValue
         self.picIds = json["pic_ids"].arrayValue
         for picId in self.picIds {
             self.pics.append(WBPicture(json: json["pic_infos"].dictionaryValue[picId.stringValue]!))
@@ -93,34 +106,49 @@ class WBURL {
  */
 class WBUser {
     
-    var userID: UInt64
-    var idStr: String
+    var userID: UInt64!
+    var idStr: String!
     
-    var name: String
-    var remark: String
+    var name: String?
+    var screenName: String?
+    var remark: String?
     
-    var profileImageURL: NSURL      /// avatar 50*50
-    var avatarLarge : NSURL         /// avatar 180*180
-    var avatarHD: NSURL             /// avatar origin
+    var profileImageURL: NSURL!      /// avatar 50*50
+    var avatarLarge : NSURL!         /// avatar 180*180
+    var avatarHD: NSURL!             /// avatar origin
     
-    var verified: Bool    /// V logo
     var urank: Int32    /// weibo level
     var mbrank: Int32   /// weibo vip level . 0 is none
+    
+    var verified: Bool      /// 大V认证
+    var verifiedType: Int32     /// 认证类型
+    var verifiedLevel: Int32        /// 认证等级
+    var userVerifyType: WBUserVerifyType = WBUserVerifyType.WBUserVerifyTypeNone    /// 认证类型(enum)
     
     init? (json: JSON) {
         self.userID = json["id"].uInt64Value
         self.idStr = String(self.userID)
-        self.name = json["screen_name"].stringValue
+        self.name = json["name"].stringValue
+        self.screenName = json["screen_name"].stringValue
         self.remark = json["remark"].stringValue
         self.profileImageURL = NSURL(string: json["profile_image_url"].stringValue)!
         self.avatarLarge = NSURL(string: json["avatar_large"].stringValue)!
         self.avatarHD = NSURL(string: json["avatar_hd"].stringValue)!
         self.verified = json["verified"].boolValue
-        
+        self.verifiedType = json["verified_type"].int32Value
+        self.verifiedLevel = json["verified_level"].int32Value
         self.urank = json["urank"].int32Value
         self.mbrank = json["mbrank"].int32Value
         
-        
+        if self.verified == true {
+            self.userVerifyType = WBUserVerifyType.WBUserVerifyTypeStandard // 个人认证
+        } else if self.verifiedType == 220 {
+            self.userVerifyType = WBUserVerifyType.WBUserVerifyTypeClub // 达人认证
+        } else if self.verifiedType == -1 && self.verifiedLevel == 3 {
+            self.userVerifyType = WBUserVerifyType.WBUserVerifyTypeOrganization     // 官方认证
+        } else {
+            self.userVerifyType = WBUserVerifyType.WBUserVerifyTypeNone
+        }
         if json == nil {return nil}
     }
 }
@@ -176,9 +204,9 @@ class WBPictureMetadata {
  */
 class WBStatus {
     
-    var statusID: UInt64    ///< id(number)
-    var idStr: String   ///< id (String)
-    var createdAt: String   /// e.g. "Wed Sep 09 10:12:55 +0800 2015"
+    var statusID: UInt64!    ///< id(number)
+    var idStr: String!   ///< id (String)
+    var createdAt: NSDate!   /// e.g. "Wed Sep 09 10:12:55 +0800 2015"
     
     var user: WBUser?
     var userType: Int32
@@ -193,9 +221,9 @@ class WBStatus {
     var retweetedStatus: WBStatus?
     
     var picIds: Array<JSON>
-    var pics: [WBPicture?] = []
-    var urlStruct: [WBURL?] = []     ///< the urls in the weibo
-    var topicStruct: [WBTopic?] = []
+    var pics: [WBPicture] = []
+    var urlStruct: [WBURL] = []     ///< the urls in the weibo
+    var topicStruct: [WBTopic] = []
     var tagStruct: [WBTag?] = []
     var pageInfo: WBPageInfo?
     var title: WBStatusTitle?  // 顶部标题栏
@@ -206,7 +234,7 @@ class WBStatus {
     var attitudesCount: Int32
     var attitudesStatus: Int32  ///< whether attitude. 0 is none
     
-    var source: String  ///< come from XXX
+    var source: String!  ///< come from XXX
     var sourceType: Int32
     var sourceAllowClick: Int32 ///< whether allow click with source. 0 is not allow
     
@@ -215,7 +243,12 @@ class WBStatus {
         self.text = json["text"].stringValue
         self.statusID = json["id"].uInt64Value
         self.idStr = json["idstr"].stringValue
-        self.createdAt = json["created_at"].stringValue
+        
+        let formatter = NSDateFormatter()
+        formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        formatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+        self.createdAt = formatter.dateFromString(json["created_at"].stringValue)
+        
         self.user = WBUser(json: json["user"])
         self.userType = json["userType"].int32Value
         self.picBg = json["pic_bg"].stringValue
@@ -227,7 +260,7 @@ class WBStatus {
         
         self.picIds = json["pic_ids"].arrayValue
         for picId in self.picIds {
-            self.pics.append(WBPicture(json: json["pic_infos"].dictionaryValue[picId.stringValue]!))
+            self.pics.append(WBPicture(json: json["pic_infos"].dictionaryValue[picId.stringValue]!)!)
         }
         
         let urls = json["url_struct"].arrayValue
@@ -261,6 +294,67 @@ class WBStatus {
         if json == nil {return nil}
     }
 }
+
+enum WBEmoticonType {
+    case WBEmoticonTypeImage    // 微博自定义表情
+    case WBEmoticonTypeEmoji    // Emoji表情
+}
+
+class WBEmoticon {
+    
+    var chs: String?    // e.g. [吃惊]
+    var cht: String?    // e.g. [吃驚]
+    var gif: String?    // e.g. .gif
+    var png: String?    // e.g. .png
+    var code: String?   // e.g. 0x1f60d
+    var type: WBEmoticonType?
+    init? (json: JSON) {
+        self.chs = json["chs"].stringValue
+        self.cht = json["cht"].stringValue
+        self.gif = json["gif"].stringValue
+        self.png = json["png"].stringValue
+        if json["type"].int32Value == 0 {
+            self.type = WBEmoticonType.WBEmoticonTypeImage
+        } else {
+            self.type = WBEmoticonType.WBEmoticonTypeEmoji
+        }
+
+        
+        
+        if json == nil { return nil }
+    
+    }
+    
+}
+
+class WBEmoticonGroup {
+    var groupID: String?
+    var version: Int32?
+    var nameCN: String?     // e.g. 浪小花
+    var nameEN: String?
+    var nameTW: String?
+    var displayOnly: Int32?
+    var groupType: Int32?
+    var emoticons: [WBEmoticon]? = []
+    
+    
+    init? (data: NSData) {
+        let json = JSON(data: data)
+        self.groupID = json["id"].stringValue
+        self.version = json["version"].int32Value
+        self.nameCN = json["group_name_cn"].stringValue
+        self.nameEN = json["group_name_en"].stringValue
+        self.nameTW = json["group_name_tw"].stringValue
+        self.displayOnly = json["display_only"].int32Value
+        self.groupType = json["group_type"].int32Value
+        let emoticons = json["emoticons"].arrayValue
+        for i in 0..<emoticons.count {
+            self.emoticons?.append(WBEmoticon(json: emoticons[i])!)
+        }
+        if json == nil { return nil }
+    }
+}
+
 
 /**
  *  Once the API requested data

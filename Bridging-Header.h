@@ -10,4 +10,6 @@
 #define Bridging_Header_h
 
 #import "YYText/YYText.h"
+#import "YYCache/YYCache.h"
+#import "YYImage/YYImage.h"
 #endif /* Bridging_Header_h */

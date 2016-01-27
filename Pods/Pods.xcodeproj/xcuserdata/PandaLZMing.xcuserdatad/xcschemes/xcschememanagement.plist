@@ -4,12 +4,27 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Kingfisher.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YYCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YYImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,17 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>32D0F633E5156BE3113DB1FE6332B4AC</key>
+		<key>175892047F5D57D69AC9D102FB92A2F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9715C22569836849BFB5AB0CFE7A5DE9</key>
+		<key>7A6B685F5E4072E6C76B720E6AEAD602</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AA5DDC4A789E5162ACAFC2C2E709FD03</key>
+		<key>901A9E56F7FA022797EAC07211197F4D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>91149CD5496ACE967559FCC705FD5C03</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A589A1711650253ED9B01C53D1F14F96</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C8B67AA989631C40E10D7514F48B9849</key>
 		<dict>
 			<key>primary</key>
 			<true/>
