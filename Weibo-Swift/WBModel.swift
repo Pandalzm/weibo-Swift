@@ -71,19 +71,24 @@ class WBPageInfo {
 class WBButtonLink {
     var pic: NSURL?     // 按钮图片的URL (需要加_default)
     var name: String?   // 按钮文本 “点评” “加关注”
-
     init? (json: JSON) {
         self.pic = NSURL(string: json["pic"].stringValue)
         self.name = json["name"].stringValue
-        
         if json == nil { return nil }
     }
 }
 
 
 class WBTag {
+    var tagName: String?        // 标签名字
+    var tagScheme: String?      // 标签链接
+    var tagType: Int?           // 1:地点 2:其他
+    var urlTypePic: NSURL?      // 标签图片 (加_default)
     init? (json: JSON) {
-        
+        self.tagName = json["tag_name"].stringValue
+        self.tagScheme = json["tag_scheme"].stringValue
+        self.tagType = json["tag_type"].int
+        self.urlTypePic = NSURL(string: json["url_type_pic"].stringValue)!
     }
 }
 
@@ -252,7 +257,7 @@ class WBStatus {
     var pics: [WBPicture] = []
     var urlStruct: [WBURL] = []     ///< the urls in the weibo
     var topicStruct: [WBTopic] = []
-    var tagStruct: [WBTag?] = []
+    var tagStruct: [WBTag] = []
     var pageInfo: WBPageInfo?
     var title: WBStatusTitle?  // 顶部标题栏
     

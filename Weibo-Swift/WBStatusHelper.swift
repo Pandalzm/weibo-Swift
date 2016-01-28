@@ -190,6 +190,13 @@ class WBStatusHelper {
         return image
     }
     
+    /// 数字转换
+    func shortedNumberDesc(number: Int) -> String {
+        if number <= 9999 { return "\(number)" }
+        if number <= 9999999 { return "\(number / 10000)万" }
+        return "\(number / 10000000)千万"
+    }
+    
     /// 时间的格式转换
     func stringWithTimeLineDate(date: NSDate?) -> String {
         if date == nil { return "" }
