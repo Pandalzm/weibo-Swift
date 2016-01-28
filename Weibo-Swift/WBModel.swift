@@ -20,7 +20,7 @@ enum WBUserVerifyType {
     case WBUserVerifyTypeClub
 }
 
-
+/// 图片的类型
 enum WBPictureBadgeType {
     case WBPictureBadgeTypeNone     ///< 正常
     case WBPictureBadgeTypeLong     ///< 长图
@@ -28,22 +28,58 @@ enum WBPictureBadgeType {
 
 }
 
+/// 微博卡片
 class WBPageInfo {
-    var pageTitle: String   ///< 页面标题,  e.g."#为周杰伦正名#"
+    var pageTitle: String           // 页面标题  e.g. "#为周杰伦正名#"
     var pageID: String
-    var pageDesc: String    ///< 页面描述
-    var tips: String    ///< "259人关注"
-    var pagePic: NSURL
+    var pageDesc: String?            // 页面描述
+    var tips: String?               //  卡片提示 "259人关注"
+    var pagePic: NSURL?             // 一般为卡片左边的图片
+    var typeIcon: NSURL?            // 一般为卡片左边的图片的左上角的类型小图标
+    var type: Int?                  // 类型  e.g.  11为视频
+    var objectType: String?         // 类型  e.g.  “place” “video” “topic”
+    var buttons:[WBButtonLink]? = []// 右侧按钮
+    var content1: String?
+    var content2: String?
+    var content3: String?
+    var content4: String?
     
     init? (json: JSON) {
         self.pageTitle = json["page_title"].stringValue
         self.pageID = json["page_id"].stringValue
         self.pageDesc = json["page_desc"].stringValue
         self.tips = json["tips"].stringValue
-        self.pagePic = NSURL(string: json["page_pic"].stringValue)!
+        self.pagePic = NSURL(string: json["page_pic"].stringValue)
+        self.type = json["type"].int
+        self.typeIcon = NSURL(string: json["type_icon"].stringValue)
+        self.objectType = json["object_type"].stringValue
+        
+        let buttonJson = json["buttons"].arrayValue
+        for i in 0..<buttonJson.count {
+            self.buttons?.append(WBButtonLink(json: buttonJson[i])!)
+        }
+        
+        self.content1 = json["content1"].stringValue
+        self.content2 = json["content2"].stringValue
+        self.content3 = json["content3"].stringValue
+        self.content4 = json["content4"].stringValue
+        
         if json == nil {return nil}
     }
 }
+
+class WBButtonLink {
+    var pic: NSURL?     // 按钮图片的URL (需要加_default)
+    var name: String?   // 按钮文本 “点评” “加关注”
+
+    init? (json: JSON) {
+        self.pic = NSURL(string: json["pic"].stringValue)
+        self.name = json["name"].stringValue
+        
+        if json == nil { return nil }
+    }
+}
+
 
 class WBTag {
     init? (json: JSON) {
@@ -51,6 +87,7 @@ class WBTag {
     }
 }
 
+/// 微博话题
 class WBTopic {
     var topiceTitle: String
     var topicURL: String
@@ -61,6 +98,7 @@ class WBTopic {
     }
 }
 
+/// 微博顶部的标题
 class WBStatusTitle {
     var baseColor: Int32
     var text: String
@@ -73,9 +111,7 @@ class WBStatusTitle {
     }
 }
 
-/**
- *  The WB URL
- */
+/// 微博URL(正文)
 class WBURL {
     
     var urlTitle: String        // 标题
@@ -101,9 +137,7 @@ class WBURL {
     }
 }
 
-/**
- *  The WB User
- */
+/// 发布微博的用户
 class WBUser {
     
     var userID: UInt64!
@@ -154,15 +188,13 @@ class WBUser {
 }
 
 
-/**
- *  The WB single picture
- */
+/// 微博图片
 class WBPicture {
     
     var objectID: String
-    var keepSize: Bool  ///< 0 is origin ,1 is fixed to square
-    var bmiddle: WBPictureMetadata
-    var large: WBPictureMetadata
+    var keepSize: Bool              // true:固定为方形 false:原始宽高
+    var bmiddle: WBPictureMetadata  // cell中的缩略图   w: 360
+    var large: WBPictureMetadata    // 放大查看的图      w:720
     init? (json: JSON) {
         self.objectID = json["object_id"].stringValue
         self.keepSize = json["keep_size"].boolValue
@@ -172,9 +204,7 @@ class WBPicture {
     }
 }
 
-/**
- *  The single picture's meta data
- */
+/// 微博图片的元数据
 class WBPictureMetadata {
     var url: NSURL
     var width: Int32
@@ -199,9 +229,7 @@ class WBPictureMetadata {
     }
 }
 
-/**
- *  The WB Status
- */
+/// 一条微博的数据
 class WBStatus {
     
     var statusID: UInt64!    ///< id(number)
@@ -257,7 +285,6 @@ class WBStatus {
             self.retweetedStatus = WBStatus(json: json["retweeted_status"])
         }
         
-        
         self.picIds = json["pic_ids"].arrayValue
         for picId in self.picIds {
             self.pics.append(WBPicture(json: json["pic_infos"].dictionaryValue[picId.stringValue]!)!)
@@ -295,11 +322,13 @@ class WBStatus {
     }
 }
 
+/// 表情类型
 enum WBEmoticonType {
     case WBEmoticonTypeImage    // 微博自定义表情
     case WBEmoticonTypeEmoji    // Emoji表情
 }
 
+/// 微博表情
 class WBEmoticon {
     
     var chs: String?    // e.g. [吃惊]
@@ -318,13 +347,8 @@ class WBEmoticon {
         } else {
             self.type = WBEmoticonType.WBEmoticonTypeEmoji
         }
-
-        
-        
         if json == nil { return nil }
-    
     }
-    
 }
 
 class WBEmoticonGroup {
@@ -356,9 +380,7 @@ class WBEmoticonGroup {
 }
 
 
-/**
- *  Once the API requested data
- */
+/// 一次API访问的数据
 class WBTimelineItem {
     
     var statusItems: [WBStatus] = []

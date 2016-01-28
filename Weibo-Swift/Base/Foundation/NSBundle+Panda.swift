@@ -14,10 +14,10 @@ extension NSBundle {
         if name.characters.count == 0 { return nil }
         if name.hasSuffix("/") { return self.pathForResource(name, ofType: ext) }
         
-        let scales: NSArray! = self.preferredScales
+        let scales: [Int]! = self.preferredScales
         var path: String?
         for s in 0..<scales.count {
-            let scale: Int = scales[s] as! Int
+            let scale: Int = scales[s]
             let scaleName: String = ext.characters.count != 0 ? name.stringByAppendingNameScale(scale) : name.stringByAppendingPathScale(scale)
             path = self.pathForResource(scaleName, ofType: ext)
             if path != nil {
@@ -27,10 +27,10 @@ extension NSBundle {
         return path
     }
     
-    var preferredScales: NSArray! {
+    var preferredScales: [Int]! {
         get {
             struct Static {
-                static var scales: NSArray = NSArray()
+                static var scales: [Int]! = []
                 static var onceToken: dispatch_once_t = 0
             }
             dispatch_once(&Static.onceToken) { () -> Void in

@@ -58,25 +58,40 @@ class WBStatusHelper {
         }
     }
     
-    // weibo表情匹配
-    func emotionDicFromPath(path: String) -> NSMutableDictionary {
+    // 表情
+    func emotionDicFromPath(path: String) -> [String: String] {
         let jsonPath: NSString! = (path as NSString).stringByAppendingPathComponent("info.json")
         let json: NSData? = NSData(contentsOfFile: jsonPath as String)
-        print(json)
         var group: WBEmoticonGroup?
+        var dic: [String : String] = [:]
         if json?.length > 0 {
             group = WBEmoticonGroup(data: json!)
         }
         if group == nil {
-            let plistPath = (path as NSString).stringByAppendingPathComponent("emoticons.plist")
+            let plistPath = (path as NSString).stringByAppendingPathComponent("info.plist")
             let plist: NSDictionary? = NSDictionary(contentsOfFile: plistPath)
             if plist?.count > 0 {
                 group = WBEmoticonGroup(data: NSKeyedArchiver.archivedDataWithRootObject(plist!))
             }
         }
-        
-        
-        return NSMutableDictionary()
+        if group?.emoticons != nil {
+            for emotion: WBEmoticon in (group?.emoticons)! {
+                if emotion.png?.length == 0 { continue }
+                let pngPath: String = (path as NSString).stringByAppendingPathComponent(emotion.png!)
+                if emotion.chs?.length > 0 { dic = [emotion.chs! : pngPath] }
+                if emotion.cht?.length > 0 { dic = [emotion.cht! : pngPath] }
+            }
+            let folders: [String] = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(path)
+            for folder: String in folders {
+                if folder.length == 0 { continue }
+                let subDic: [String : String]? = self.emotionDicFromPath((path as NSString).stringByAppendingPathComponent(folder))
+                if subDic != nil {
+                    dic.addEntriesFromDictionary(subDic!)
+                }
+            }
+        }
+
+        return dic
     }
     
     // at正则匹配单例
@@ -157,11 +172,22 @@ class WBStatusHelper {
     /// 图片地址取图片(已使用缓存)
     func imageWithPath(path: NSString?) -> UIImage? {
         if path == nil { return nil }
-        let image: UIImage? = self.imageCache.objectForKey(path) as? UIImage
+        var image: UIImage? = self.imageCache.objectForKey(path) as? UIImage
         if image != nil { return image }
-        
-        
-    
+        if path?.pathScale == 1 {
+            let scales: [Int] = NSBundle().preferredScales
+            for scale: Int in scales {
+                image = UIImage(contentsOfFile: (path as! String).stringByAppendingPathScale(scale))
+                if image != nil { break }
+            }
+        } else {
+            image = UIImage(contentsOfFile: path as! String)
+        }
+        if image != nil {
+            image = image?.yy_imageByDecoded()
+            self.imageCache.setObject(image, forKey: path)
+        }
+        return image
     }
     
     /// 时间的格式转换

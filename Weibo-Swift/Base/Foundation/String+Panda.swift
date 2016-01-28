@@ -31,5 +31,20 @@ extension String {
         return self.characters.count
     }
 
+}
 
+extension NSString {
+    var pathScale: Float {
+        get {
+            if self.length == 0 || self.hasSuffix("/") { return 1 }
+            let name: NSString = self.stringByDeletingPathExtension
+            var scale: Float = 1
+            let pattern: NSRegularExpression? = try! NSRegularExpression(pattern: "@[0-9]+\\.?[0-9]*x$", options:.AnchorsMatchLines)
+            if pattern == nil { return 1 }
+            pattern?.enumerateMatchesInString(name as String, options: [], range: NSMakeRange(0, name.length), usingBlock: { (result ,flags, stop) -> Void in
+                  scale = Float((name.substringWithRange((result?.range)!) as NSString).substringWithRange(NSMakeRange(1, (result?.range.length)! - 2)))!
+            })
+            return scale
+        }
+    }
 }

@@ -17,24 +17,29 @@ enum WBStatusCardType {
     case WBStatusCardTypeVideo
 }
 
-class WBStatusStatic {
 
-}
 
-/// 微博布局
+/// 微博布局计算
 class WBStatusLayout {
     // 高度
     let kWBCellTitleHeight: CGFloat = 36     // 标题高度
     let kWBCellProfileHeight: CGFloat = 56   // 名片高度
     
+    
     // 宽度
-    let kWBCellNameWidth: CGFloat = kScreenWidth() - 110 // 名字最大宽度
+    let kWBCellNameWidth: CGFloat = kScreenWidth() - 110    // 名字最大宽度
+    let kWBCellPadding: CGFloat! = 12                       // cell内边框
+    let kWBCellPaddingText: CGFloat = 10                    // 文本与其他元素的留白 e.g. "xxx 🐰 xxx"
+    let kWBCellContentWidth: CGFloat                        // 内容宽度 kScreenWidth() - 2 * kWBCellPadding ---> | |xxxxxxxxx| |
+    let kWBCellPaddingPic: CGFloat = 4                      // 多图间的留白
     
     // 字体
     let kWBCellNameFontSize: CGFloat = 14        // 名字字体大小
     let kWBCellTitlebarFontSize: CGFloat = 14    // 标题栏字体大小
     let kWBCellSourceFontSize: CGFloat = 12      // 来源字体大小
     let kWBCellTextFontRetweetSize: CGFloat = 16 // 转发字体大小
+    let kWBCellCardTitleFontSize: CGFloat = 10   // 卡片标题文本字体大小
+    let kWBCellCardDescFontSize: CGFloat = 12    // 卡片描述文本字体大小
     
     // 颜色
     let kWBCellNameOrangeColor: UIColor! = UIColor(hexString: "f26220")      // 橙色颜色
@@ -49,9 +54,11 @@ class WBStatusLayout {
     let kWBLinkURLName: String! = "url"
     let kWBLinkAtName: String! = "at"
     
-    
-    //----------------------------------------------------------
+    //-------------------------------------------------------------------------------------------
+
+    // 数据
     let status: WBStatus
+    
     // 顶部灰色留白
     let marginTop: CGFloat = 8
     
@@ -74,11 +81,12 @@ class WBStatusLayout {
     
     // 转发
     var retweetHeight: CGFloat = 0  // 转发高度
-    var retweetTextHeight: CGFloat = 0  //
+    var retweetTextHeight: CGFloat = 0
     var retweetTextLayout: YYTextLayout?
     var retweetPicHeight: CGFloat = 0
     var retweetPicSize: CGSize?
     var retweetCardHeight: CGFloat = 0  // 转发中的卡片高度
+    var retweetCardTextLayout: YYTextLayout?
     var retweetCardType: WBStatusCardType = WBStatusCardType.WBStatusCardTypeNone
     var retweetCardText: YYTextLayout?
     var retweetCardTextRect: CGRect?
@@ -106,6 +114,7 @@ class WBStatusLayout {
     
     init? (status: WBStatus) {
         self.status = status
+        self.kWBCellContentWidth = kScreenWidth() - 2 * kWBCellPadding
         if status.user == nil {return nil}
         // 进行布局计算
         self.layout()
@@ -116,6 +125,9 @@ class WBStatusLayout {
         self.layoutTitle()
         self.layoutProfile()
         self.layoutRetweet()
+        if self.retweetHeight == 0 {
+            
+        }
     }
 
     /// 标题布局计算 (例如“热门”“推荐”)
@@ -259,30 +271,273 @@ class WBStatusLayout {
         }
     }
     
+    
+
+    
+    
     /// 转发微博
     func layoutRetweet() {
         self.retweetHeight = 0
         self.layoutRetweetedText()
         self.layoutRetweetPics()
         
+        if self.retweetPicHeight == 0 {
+            self.layoutRetweetCard()
+        }
+        
+        self.retweetHeight = self.retweetTextHeight
+        if self.retweetPicHeight > 0 {  // 两者只能存在一个
+            self.retweetHeight += self.retweetHeight
+            self.retweetHeight += kWBCellPadding // padding
+        } else if self.retweetCardHeight > 0 {
+            self.retweetHeight += self.retweetCardHeight
+            self.retweetHeight += kWBCellPadding // padding
+        }
     }
     
-    /// 转发微博正文
+    /// 转发微博中正文
     func layoutRetweetedText() {
         self.retweetHeight = 0
         self.retweetTextLayout = nil
         let text: NSMutableAttributedString? = self.textWithStatus(self.status.retweetedStatus, isRetweet: true, fontSize: kWBCellTextFontRetweetSize, textColor: kWBCellTextSubTitleColor)
         
+        if text == nil || text!.length == 0 { return }
+        
+        let modifier: WBTextLinePositionModifier! = WBTextLinePositionModifier()
+        modifier.font = UIFont(name: "Heiti SC", size: kWBCellTextFontRetweetSize)
+        modifier.paddingTop = Float(kWBCellPaddingText)
+        modifier.paddingBottm = Float(kWBCellPaddingText)
+        
+        let container: YYTextContainer = YYTextContainer()
+        container.size = CGSizeMake(kWBCellContentWidth, CGFloat(HUGE))
+        container.linePositionModifier = modifier
+        
+        self.retweetTextLayout = YYTextLayout(container: container, text: text)
+        if self.retweetTextLayout == nil { return }
+        self.retweetTextHeight = CGFloat(modifier.heightForLineCount(self.retweetTextLayout?.lines.count)!)
+    }
     
+    /// 转发微博卡片
+    func layoutRetweetCard() {
+        self.layoutCardWithStatus(self.status.retweetedStatus, isRetweet: true)
+    }
+    
+    /// 根据微博中的卡片进行转化
+    func layoutCardWithStatus(status: WBStatus?, isRetweet: Bool) {
+        if status == nil { return }
+        if isRetweet == true {
+            self.retweetCardType = WBStatusCardType.WBStatusCardTypeNone
+            self.retweetCardHeight = 0
+            self.retweetCardTextLayout = nil
+            self.retweetCardTextRect = CGRectZero
+        } else {
+            self.cardType = WBStatusCardType.WBStatusCardTypeNone
+            self.cardHeight = 0
+            self.cardTextLayout = nil
+            self.cardTextRect = CGRectZero
+        }
+        
+        let pageInfo: WBPageInfo? = status!.pageInfo
+        if pageInfo == nil { return }
+        
+        var cardType: WBStatusCardType! = WBStatusCardType.WBStatusCardTypeNone
+        var cardHeight: CGFloat! = 0
+        var cardTextLayout: YYTextLayout?
+        var textRect: CGRect! = CGRectZero
+        
+        if pageInfo!.type == 11 && pageInfo!.objectType == "video" {    // 视频卡片 
+            if pageInfo!.pagePic != nil {
+                cardType = WBStatusCardType.WBStatusCardTypeVideo
+                cardHeight = (2 * kWBCellContentWidth - kWBCellPaddingPic) / 3
+            }
+        } else {
+            let hasImage: Bool! = (pageInfo!.pagePic != nil)    // 左侧图
+            let hasBadge: Bool! = (pageInfo!.typeIcon != nil)   // 图的类型图标
+            let button:WBButtonLink? = pageInfo!.buttons?.first
+            let hasButton: Bool! = button?.pic != nil && button?.name != nil
+            
+            /*
+            卡片数据
+            badge(一般为左上角小图标)   : 25 * 25
+            image(一般为左方图片)      : 方形（70 * 70); 矩形(100 * 70)
+            btn(一般为右侧按钮)        : 60 * 70
+            lineHeight(文字高度)      : 20
+            padding(控件间距)         : 10
+            */
+            
+            textRect.size.height = 70
+            if hasImage == true {
+                if hasBadge == true {
+                    textRect.origin.x = 100
+                } else {
+                    textRect.origin.x = 70
+                }
+            } else {
+                if hasBadge == true {
+                    textRect.origin.x = 42
+                }
+            }
+            
+            textRect.origin.x += 10 // padding
+            textRect.size.width = kWBCellContentWidth - textRect.origin.x
+            if hasButton == true { textRect.size.width -= 60 }
+            textRect.size.width -= 10 // padding
+            
+            /*  一般卡片样式(badge在image的左上角)
+            ----------------------------
+            |        pageTitle         |
+            | image  pageDesc   btns   |
+            |        tips              |
+            ----------------------------
+            */
+            
+            let text: NSMutableAttributedString = NSMutableAttributedString()
+
+            if pageInfo!.pageTitle.length > 0 {         // 标题
+                let title: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!.pageTitle)
+                title.yy_font = UIFont.systemFontOfSize(kWBCellCardTitleFontSize)
+                title.yy_color = kWBCellNameNormalColor
+                text.appendAttributedString(title)
+            }
+            
+            if pageInfo!.pageDesc?.length > 0 {          // 卡片描述
+                if text.length > 0 { text.yy_appendString("\n") }
+                let desc: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!
+                    .pageDesc!)
+                desc.yy_font = UIFont.systemFontOfSize(kWBCellCardDescFontSize)
+                desc.yy_color = kWBCellNameNormalColor
+                text.appendAttributedString(desc)
+            } else if pageInfo!.content2?.length > 0 {
+                if text.length > 0 { text.yy_appendString("\n") }
+                let desc: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!.pageDesc!)
+                desc.yy_font = UIFont.systemFontOfSize(kWBCellCardDescFontSize)
+                desc.yy_color = kWBCellNameNormalColor
+                text.appendAttributedString(desc)
+            } else if pageInfo!.content3?.length > 0 {
+                if text.length > 0 { text.yy_appendString("\n") }
+                let desc: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!.pageDesc!)
+                desc.yy_font = UIFont.systemFontOfSize(kWBCellCardDescFontSize)
+                desc.yy_color = kWBCellNameNormalColor
+                text.appendAttributedString(desc)
+            } else if pageInfo!.content4?.length > 0 {
+                if text.length > 0 { text.yy_appendString("\n") }
+                let desc: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!.pageDesc!)
+                desc.yy_font = UIFont.systemFontOfSize(kWBCellCardDescFontSize)
+                desc.yy_color = kWBCellNameNormalColor
+                text.appendAttributedString(desc)
+            }
+            
+            if pageInfo!.tips?.length > 0 {         // 卡片提示
+                if text.length > 0 { text.yy_appendString("\n") }
+                let tips: NSMutableAttributedString = NSMutableAttributedString(string: pageInfo!.tips!)
+                tips.yy_font = UIFont.systemFontOfSize(kWBCellCardDescFontSize)
+                tips.yy_color = kWBCellTextSubTitleColor
+                text.appendAttributedString(tips)
+            }
+            
+            if text.length > 0 {
+                text.yy_maximumLineHeight = 20
+                text.yy_minimumLineHeight = 20
+                text.yy_lineBreakMode = .ByTruncatingTail   //  ---->  xxx...
+                
+                let container: YYTextContainer = YYTextContainer(size: textRect.size)
+                container.maximumNumberOfRows = 3   // 最大为一般样式的三行
+                cardTextLayout = YYTextLayout(container: container, text: text)
+            }
+            
+            if cardTextLayout != nil {
+                cardType = .WBStatusCardTypeNormal
+                cardHeight = 70     // 最高为图片的高度
+            }
+        }
+        
+        if isRetweet == true {
+            self.retweetCardType = cardType
+            self.retweetCardHeight = cardHeight
+            self.retweetCardTextLayout = cardTextLayout
+            self.retweetCardTextRect = textRect
+        } else {
+            self.cardType = cardType
+            self.cardHeight = cardHeight
+            self.cardTextLayout = cardTextLayout
+            self.cardTextRect = textRect
+        }
+    }
+    
+    /// 微博图片
+    func layoutPics() {
+        self.layoutPicsWithStauts(self.status, isRetweet: false)
     }
     
     /// 转发微博图片
     func layoutRetweetPics() {
-        
-    
+        self.layoutPicsWithStauts(self.status.retweetedStatus, isRetweet: true)
     }
     
-    // 根据微博正文进行转化
+    /// 根据微博中图片进行转化
+    func layoutPicsWithStauts(status: WBStatus?, isRetweet: Bool) {
+        if status == nil { return }
+        if isRetweet == true {
+            self.retweetPicSize = CGSizeZero
+            self.retweetPicHeight = 0
+        } else {
+            self.picSize = CGSizeZero
+            self.picHeight = 0
+        }
+        if status?.pics.count == 0 { return }
+        
+        var picSize: CGSize = CGSizeZero
+        var picHeight: CGFloat = 0
+        
+        var len1_3: CGFloat = (kWBCellContentWidth + kWBCellPaddingPic) / 3 - kWBCellPaddingPic     // 有大于1张图片的时候图片的宽度
+        len1_3 = CGFloatPixelRound(len1_3)
+        
+        switch (status!.pics.count) {
+        case 1:
+            let pic: WBPicture! = status?.pics.first
+            let bmiddle: WBPictureMetadata = pic.bmiddle
+            if pic.keepSize == true || bmiddle.width < 1 || bmiddle.height < 1 {            // 单图 为正方形的时候
+                var maxLen: CGFloat = kWBCellContentWidth / 2.0
+                maxLen = CGFloatPixelRound(maxLen)
+                picSize = CGSizeMake(maxLen, maxLen)
+                picHeight = maxLen
+            } else {
+                let maxlen: CGFloat = len1_3 * 2 + kWBCellPaddingPic
+                if bmiddle.width < bmiddle.height {
+                    picSize.width = CGFloat(bmiddle.width) / CGFloat(bmiddle.height) * maxlen
+                    picSize.height = maxlen
+                } else {
+                    picSize.width = maxlen
+                    picSize.height = CGFloat(bmiddle.height) / CGFloat(bmiddle.width) * maxlen
+                }
+                picSize = CGSizePixelRound(picSize)
+                picHeight = picSize.height
+            }
+            break
+        case 2,3:
+            picSize = CGSizeMake(len1_3, len1_3)
+            picHeight = len1_3
+            break
+        case 4,5,6:
+            picSize = CGSizeMake(len1_3, len1_3)
+            picHeight = len1_3 * 2 + kWBCellPaddingPic
+            break
+        default:    // 7,8,9
+            picSize = CGSizeMake(len1_3, len1_3)
+            picHeight = len1_3 * 3 + kWBCellPaddingPic
+            break
+        }
+        
+        if isRetweet == true {
+            self.retweetPicSize = picSize
+            self.retweetPicHeight = picHeight
+        } else {
+            self.picSize = picSize
+            self.picHeight = picHeight
+        }
+    }
+    
+    /// 根据微博正文进行转化
     func textWithStatus(status:WBStatus?, isRetweet: Bool, fontSize: CGFloat, textColor: UIColor) -> NSMutableAttributedString? {
         if status == nil { return nil }
         var string: String! = status!.text
@@ -405,7 +660,6 @@ class WBStatusLayout {
 
         /// 匹配用户名 ---> @XXX
         let atRestults = WBStatusHelper().regexAt.matchesInString(text.string, options: [], range: NSMakeRange(0, text.length))
-        
         for at: NSTextCheckingResult in atRestults {
             if at.range.location == NSNotFound && at.range.length <= 1 { continue }
             if text.yy_attribute(YYTextHighlightAttributeName, atIndex:UInt(at.range.location)) == nil {
@@ -421,7 +675,6 @@ class WBStatusLayout {
         }
         
         /// 匹配表情 [🐰]
-        
         let emotionResults = WBStatusHelper().regexEmotion.matchesInString(text.string, options: [], range: NSMakeRange(0, text.length))
         var emoClipLength: Int = 0
         for emo: NSTextCheckingResult in emotionResults {
@@ -433,20 +686,17 @@ class WBStatusLayout {
             
             let emoString: NSString = (text.string as NSString).substringWithRange(range)
             print(emoString)
-            let imagePath: NSString = WBStatusHelper().emoticonDic[emoString] as! NSString
+            let imagePath: NSString? = WBStatusHelper().emoticonDic[emoString] as? NSString
+            let image: UIImage? = WBStatusHelper().imageWithPath(imagePath)
+            if image == nil { continue }
             
+            let emoText: NSAttributedString = NSAttributedString.yy_attachmentStringWithEmojiImage(image, fontSize: fontSize)
             
-        
-        
+            text.replaceCharactersInRange(range, withAttributedString: emoText)
+            emoClipLength += range.length - 1
         }
-        
-        
-        
-        
         return text
     }
-    
-    
     
     
     
@@ -549,4 +799,51 @@ class WBTextImageViewAttachment: YYTextAttachment {
     
     }
 }
+
+class WBTextLinePositionModifier: NSObject, YYTextLinePositionModifier {
+    var font: UIFont?
+    var paddingTop: Float? = 0
+    var paddingBottm: Float? = 0
+    var lineHeightMultiple: Float? = 0
+    
+    override init () {
+        let kSystemVersion: Float! = Float(UIDevice.currentDevice().systemVersion)
+        if kSystemVersion >= 9 {
+            self.lineHeightMultiple = 1.34
+        } else {
+            self.lineHeightMultiple = 1.3125
+        }
+    }
+    
+    func heightForLineCount(lineCount: Int?) -> Float? {
+        if lineCount == 0 { return 0 }
+        let ascent: CGFloat! = self.font!.pointSize * 0.86
+        let decent: CGFloat! = self.font!.pointSize * 0.14
+        let lineHeight: CGFloat! = self.font!.pointSize * CGFloat(self.lineHeightMultiple!)
+        return self.paddingTop! + self.paddingBottm! + Float(ascent + decent + CGFloat(CGFloat(lineCount! - 1) * lineHeight))
+    }
+    
+    @objc func modifyLines(lines: [AnyObject]!, fromText text: NSAttributedString!, inContainer container: YYTextContainer!) {
+        
+        let ascent: CGFloat? = self.font?.ascender
+        let lineHeight: CGFloat = self.font!.pointSize * CGFloat(self.lineHeightMultiple!)
+        
+        for line: YYTextLine in lines as! [YYTextLine] {
+            var position: CGPoint = line.position
+            position.y = CGFloat(self.paddingTop!) + ascent! + CGFloat(line.row) * lineHeight
+            line.position = position
+        }
+    }
+    
+    @objc func copyWithZone(zone: NSZone) -> AnyObject {
+        let one: WBTextLinePositionModifier = WBTextLinePositionModifier()
+        one.font = self.font
+        one.paddingTop = self.paddingTop
+        one.paddingBottm = self.paddingBottm
+        one.lineHeightMultiple = self.lineHeightMultiple
+        return one
+    }
+    
+}
+
 

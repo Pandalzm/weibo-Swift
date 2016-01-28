@@ -13,6 +13,7 @@
 		3B32DF471C56231800BBBBF5 /* String+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF461C56231800BBBBF5 /* String+Panda.swift */; };
 		3B32DF4B1C5631A600BBBBF5 /* NSDate+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF4A1C5631A600BBBBF5 /* NSDate+Panda.swift */; };
 		3B32DF4D1C57729A00BBBBF5 /* EmoticonWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B32DF4C1C57729A00BBBBF5 /* EmoticonWeibo.bundle */; };
+		3B32DF511C58748E00BBBBF5 /* Dictionary+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF501C58748E00BBBBF5 /* Dictionary+Panda.swift */; };
 		3BD32EAA1C50DBCE00D6C61E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32EA91C50DBCE00D6C61E /* AppDelegate.swift */; };
 		3BD32EAC1C50DBCE00D6C61E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32EAB1C50DBCE00D6C61E /* ViewController.swift */; };
 		3BD32EAF1C50DBCE00D6C61E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BD32EAD1C50DBCE00D6C61E /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 		3B32DF461C56231800BBBBF5 /* String+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Panda.swift"; sourceTree = "<group>"; };
 		3B32DF4A1C5631A600BBBBF5 /* NSDate+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Panda.swift"; sourceTree = "<group>"; };
 		3B32DF4C1C57729A00BBBBF5 /* EmoticonWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = EmoticonWeibo.bundle; sourceTree = "<group>"; };
+		3B32DF501C58748E00BBBBF5 /* Dictionary+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Panda.swift"; sourceTree = "<group>"; };
 		3BD32EA61C50DBCE00D6C61E /* Weibo-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weibo-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BD32EA91C50DBCE00D6C61E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3BD32EAB1C50DBCE00D6C61E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				3B32DF441C561E9900BBBBF5 /* NSBundle+Panda.swift */,
 				3B32DF461C56231800BBBBF5 /* String+Panda.swift */,
 				3B32DF4A1C5631A600BBBBF5 /* NSDate+Panda.swift */,
+				3B32DF501C58748E00BBBBF5 /* Dictionary+Panda.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				3B32DF471C56231800BBBBF5 /* String+Panda.swift in Sources */,
 				3BEDF8B31C55082B008AF40C /* PandaCGUtilities.swift in Sources */,
 				3BD32EDA1C50DDFD00D6C61E /* WBCell.swift in Sources */,
+				3B32DF511C58748E00BBBBF5 /* Dictionary+Panda.swift in Sources */,
 				3B32DF3E1C55B60000BBBBF5 /* WBStatusHelper.swift in Sources */,
 				3BD32EDC1C50DF0500D6C61E /* WBModel.swift in Sources */,
 				3BEDF8AD1C5393FB008AF40C /* WBStatusLayout.swift in Sources */,
