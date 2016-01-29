@@ -25,48 +25,50 @@ enum WBStatusTagType {
     case WBStatusTagTypePlace
 }
 
+//  #define
 
+// 高度
+let kWBCellTitleHeight: CGFloat = 36     // 标题高度
+let kWBCellProfileHeight: CGFloat = 56   // 名片高度
+let kWBCellToolbarHeight: CGFloat = 35   // 工具栏高度
+
+
+// 宽度
+let kWBCellNameWidth: CGFloat = kScreenWidth() - 110    // 名字最大宽度
+let kWBCellNamePaddingLeft: CGFloat = 14                // 名字和头像的间距
+let kWBCellPadding: CGFloat! = 12                       // cell内边框
+let kWBCellPaddingText: CGFloat = 10                    // 文本与其他元素的留白 e.g. "xxx 🐰 xxx"
+let kWBCellPaddingPic: CGFloat = 4                      // 多图间的留白
+
+// 字体
+let kWBCellNameFontSize: CGFloat = 14        // 名字字体大小
+let kWBCellTitlebarFontSize: CGFloat = 14    // 标题栏字体大小
+let kWBCellSourceFontSize: CGFloat = 12      // 来源字体大小
+let kWBCellTextFontRetweetSize: CGFloat = 16 // 转发字体大小
+let kWBCellCardTitleFontSize: CGFloat = 10   // 卡片标题文本字体大小
+let kWBCellCardDescFontSize: CGFloat = 12    // 卡片描述文本字体大小
+let kWBCellTextFontSize: CGFloat = 17        // 正文文本字体大小
+let kWBCellToolbarFontSize: CGFloat = 14     // 工具栏字体大小
+
+// 颜色
+let kWBCellNameOrangeColor: UIColor! = UIColor(hexString: "f26220")      // 橙色颜色
+let kWBCellToolbarTitleColor: UIColor! = UIColor(hexString:"929292")     // 工具栏文本色
+let kWBCellNameNormalColor: UIColor! = UIColor(hexString: "333333")      // 名字颜色
+let kWBCellTimeNormalColor: UIColor! = UIColor(hexString: "828282")      // 时间颜色
+let kWBCellTextHighlightColor: UIColor! = UIColor(hexString: "527ead")   // 链接颜色
+let kWBCellTextSubTitleColor: UIColor! = UIColor(hexString: "5d5d5d")    // 次要文本色(转发)
+let kWBCellTextNormalColor: UIColor! = UIColor(hexString: "333333")      // 一般文本色
+
+// 固定字符
+let kWBLinkHrefName: String! = "href"
+let kWBLinkURLName: String! = "url"
+let kWBLinkAtName: String! = "at"
+let kWBLinkTagName: String! = "tag"
 
 /// 微博布局计算
-class WBStatusLayout {
-    // 高度
-    let kWBCellTitleHeight: CGFloat = 36     // 标题高度
-    let kWBCellProfileHeight: CGFloat = 56   // 名片高度
-    let kWBCellToolbarHeight: CGFloat = 35   // 工具栏高度
-    
-    
-    // 宽度
-    let kWBCellNameWidth: CGFloat = kScreenWidth() - 110    // 名字最大宽度
-    let kWBCellPadding: CGFloat! = 12                       // cell内边框
-    let kWBCellPaddingText: CGFloat = 10                    // 文本与其他元素的留白 e.g. "xxx 🐰 xxx"
+public class WBStatusLayout {
+
     let kWBCellContentWidth: CGFloat                        // 内容宽度 kScreenWidth() - 2 * kWBCellPadding ---> | |xxxxxxxxx| |
-    let kWBCellPaddingPic: CGFloat = 4                      // 多图间的留白
-    
-    // 字体
-    let kWBCellNameFontSize: CGFloat = 14        // 名字字体大小
-    let kWBCellTitlebarFontSize: CGFloat = 14    // 标题栏字体大小
-    let kWBCellSourceFontSize: CGFloat = 12      // 来源字体大小
-    let kWBCellTextFontRetweetSize: CGFloat = 16 // 转发字体大小
-    let kWBCellCardTitleFontSize: CGFloat = 10   // 卡片标题文本字体大小
-    let kWBCellCardDescFontSize: CGFloat = 12    // 卡片描述文本字体大小
-    let kWBCellTextFontSize: CGFloat = 17        // 正文文本字体大小
-    let kWBCellToolbarFontSize: CGFloat = 14     // 工具栏字体大小
-    
-    // 颜色
-    let kWBCellNameOrangeColor: UIColor! = UIColor(hexString: "f26220")      // 橙色颜色
-    let kWBCellToolbarTitleColor: UIColor! = UIColor(hexString:"929292")     // 工具栏文本色
-    let kWBCellNameNormalColor: UIColor! = UIColor(hexString: "333333")      // 名字颜色
-    let kWBCellTimeNormalColor: UIColor! = UIColor(hexString: "828282")      // 时间颜色
-    let kWBCellTextHighlightColor: UIColor! = UIColor(hexString: "527ead")   // 链接颜色
-    let kWBCellTextSubTitleColor: UIColor! = UIColor(hexString: "5d5d5d")    // 次要文本色(转发)
-    let kWBCellTextNormalColor: UIColor! = UIColor(hexString: "333333")      // 一般文本色
-    
-    // 固定字符
-    let kWBLinkHrefName: String! = "href"
-    let kWBLinkURLName: String! = "url"
-    let kWBLinkAtName: String! = "at"
-    let kWBLinkTagName: String! = "tag"
-    
     //-------------------------------------------------------------------------------------------
 
     // 数据

@@ -43,6 +43,10 @@ public func CGFloatPixelRound(value: CGFloat) -> CGFloat {
     return round(value * scale) / scale
 }
 
+public func CGFloatFromPixel(value: CGFloat) -> CGFloat{
+    return value / PandaScreenScale()
+}
+
 public func UIEdgeInsetPixelFloor(insets: UIEdgeInsets) -> UIEdgeInsets {
     var insets = insets
     insets.top = CGFloatPixelFloor(insets.top)

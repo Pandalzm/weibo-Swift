@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B30A0C01C5A058200AA6479 /* UIImage+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B30A0BF1C5A058200AA6479 /* UIImage+Panda.swift */; };
 		3B32DF3E1C55B60000BBBBF5 /* WBStatusHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF3D1C55B60000BBBBF5 /* WBStatusHelper.swift */; };
 		3B32DF431C561B7900BBBBF5 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B32DF421C561B7900BBBBF5 /* ResourceWeibo.bundle */; };
 		3B32DF451C561E9900BBBBF5 /* NSBundle+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF441C561E9900BBBBF5 /* NSBundle+Panda.swift */; };
@@ -31,7 +32,7 @@
 		3BD32ED61C50DDB600D6C61E /* NSData+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED11C50DDB600D6C61E /* NSData+Panda.swift */; };
 		3BD32ED71C50DDB600D6C61E /* UIColor+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED41C50DDB600D6C61E /* UIColor+Panda.swift */; };
 		3BD32ED81C50DDB600D6C61E /* UIView+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED51C50DDB600D6C61E /* UIView+Panda.swift */; };
-		3BD32EDA1C50DDFD00D6C61E /* WBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED91C50DDFD00D6C61E /* WBCell.swift */; };
+		3BD32EDA1C50DDFD00D6C61E /* WBStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */; };
 		3BD32EDC1C50DF0500D6C61E /* WBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32EDB1C50DF0500D6C61E /* WBModel.swift */; };
 		3BEDF8AD1C5393FB008AF40C /* WBStatusLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */; };
 		3BEDF8B31C55082B008AF40C /* PandaCGUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEDF8B21C55082B008AF40C /* PandaCGUtilities.swift */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		042FC467B2954CF545451BB1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		2BF6BCBAFB4CF8E8659B8621 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B30A0BF1C5A058200AA6479 /* UIImage+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Panda.swift"; sourceTree = "<group>"; };
 		3B32DF3D1C55B60000BBBBF5 /* WBStatusHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusHelper.swift; sourceTree = "<group>"; };
 		3B32DF421C561B7900BBBBF5 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
 		3B32DF441C561E9900BBBBF5 /* NSBundle+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSBundle+Panda.swift"; sourceTree = "<group>"; };
@@ -67,7 +69,7 @@
 		3BD32ED11C50DDB600D6C61E /* NSData+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+Panda.swift"; sourceTree = "<group>"; };
 		3BD32ED41C50DDB600D6C61E /* UIColor+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Panda.swift"; sourceTree = "<group>"; };
 		3BD32ED51C50DDB600D6C61E /* UIView+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Panda.swift"; sourceTree = "<group>"; };
-		3BD32ED91C50DDFD00D6C61E /* WBCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBCell.swift; sourceTree = "<group>"; };
+		3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusCell.swift; sourceTree = "<group>"; };
 		3BD32EDB1C50DF0500D6C61E /* WBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBModel.swift; sourceTree = "<group>"; };
 		3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusLayout.swift; sourceTree = "<group>"; };
 		3BEDF8B11C53AFEF008AF40C /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			children = (
 				3BD32ED41C50DDB600D6C61E /* UIColor+Panda.swift */,
 				3BD32ED51C50DDB600D6C61E /* UIView+Panda.swift */,
+				3B30A0BF1C5A058200AA6479 /* UIImage+Panda.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -207,7 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				3BD32EBC1C50DCE700D6C61E /* WBTimeLineViewController.swift */,
-				3BD32ED91C50DDFD00D6C61E /* WBCell.swift */,
+				3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */,
 				3BD32EDB1C50DF0500D6C61E /* WBModel.swift */,
 				3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */,
 			);
@@ -368,7 +371,7 @@
 				3B32DF451C561E9900BBBBF5 /* NSBundle+Panda.swift in Sources */,
 				3B32DF471C56231800BBBBF5 /* String+Panda.swift in Sources */,
 				3BEDF8B31C55082B008AF40C /* PandaCGUtilities.swift in Sources */,
-				3BD32EDA1C50DDFD00D6C61E /* WBCell.swift in Sources */,
+				3BD32EDA1C50DDFD00D6C61E /* WBStatusCell.swift in Sources */,
 				3B32DF511C58748E00BBBBF5 /* Dictionary+Panda.swift in Sources */,
 				3B32DF3E1C55B60000BBBBF5 /* WBStatusHelper.swift in Sources */,
 				3BD32EDC1C50DF0500D6C61E /* WBModel.swift in Sources */,
@@ -377,6 +380,7 @@
 				3BD32EAA1C50DBCE00D6C61E /* AppDelegate.swift in Sources */,
 				3BD32EBD1C50DCE700D6C61E /* WBTimeLineViewController.swift in Sources */,
 				3BD32ED61C50DDB600D6C61E /* NSData+Panda.swift in Sources */,
+				3B30A0C01C5A058200AA6479 /* UIImage+Panda.swift in Sources */,
 				3BD32ED81C50DDB600D6C61E /* UIView+Panda.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

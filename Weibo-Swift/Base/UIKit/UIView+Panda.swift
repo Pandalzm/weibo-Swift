@@ -69,4 +69,63 @@ public extension UIView {
         }
     }
     
+    /// < shortcut for frame.origin
+    public var origin: CGPoint {
+        get {
+            return self.frame.origin
+        }
+        set(origin) {
+            var frame = self.frame
+            frame.origin = origin
+            self.frame = frame
+        }
+    
+    }
+    
+    ///< Shortcut for frame.origin.y + frame.size.height
+    public var bottom: CGFloat {
+        get {
+            return self.frame.origin.y + self.frame.size.height
+        }
+        set(bottom) {
+            var frame = self.frame
+            frame.origin.y = bottom - frame.size.height
+            self.frame = frame
+        }
+    }
+    
+    ///< Shortcut for frame.origin.y
+    public var top: CGFloat {
+        get {
+            return self.frame.origin.y
+        }
+        set(y) {
+            var frame = self.frame
+            frame.origin.y = y
+            self.frame = frame
+        }
+    }
+    
+    public var left: CGFloat {
+        get {
+            return self.frame.origin.x
+        }
+        set(x){
+            var frame = self.frame
+            frame.origin.x = x
+            self.frame = frame
+        }
+    }
+    
+    public var right: CGFloat {
+        get {
+            return self.frame.origin.x + self.frame.size.width
+        }
+        set(right) {
+            var frame = self.frame
+            frame.origin.x = right - frame.size.width
+            self.frame = frame
+        }
+    }
+    
 }
