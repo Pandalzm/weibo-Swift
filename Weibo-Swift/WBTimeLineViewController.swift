@@ -51,7 +51,7 @@ class WBTimeLineViewController: UIViewController, UITableViewDelegate, UITableVi
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.title = "Weibo (loaded:\(self.layouts.count))"
+                self.title = "首页"
                 indicator.removeFromSuperview()
                 self.navigationController?.view.userInteractionEnabled = true
                 self.tableView.reloadData()
@@ -63,14 +63,13 @@ class WBTimeLineViewController: UIViewController, UITableViewDelegate, UITableVi
         return self.layouts.count
     }
     
+    let cellID: String = "cell"
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellID: String = "cell"
         var cell = tableView.dequeueReusableCellWithIdentifier(cellID) as? WBStatusCell
         if cell == nil {
             cell = WBStatusCell(style: .Default, reuseIdentifier: cellID)
-            cell!.setLayout(self.layouts[indexPath.row])
         }
-        
+        cell!.setLayout(self.layouts[indexPath.row])
         
         return cell!
     }

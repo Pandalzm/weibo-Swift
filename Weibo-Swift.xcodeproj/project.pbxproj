@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B0485041C5E5D6B00AB7A28 /* CYLPlusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0484FF1C5E5D6B00AB7A28 /* CYLPlusButton.m */; };
+		3B0485051C5E5D6B00AB7A28 /* CYLTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0485011C5E5D6B00AB7A28 /* CYLTabBar.m */; };
+		3B0485061C5E5D6B00AB7A28 /* CYLTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B0485031C5E5D6B00AB7A28 /* CYLTabBarController.m */; };
+		3B04850B1C5E5E2200AB7A28 /* WBMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04850A1C5E5E2200AB7A28 /* WBMessageViewController.swift */; };
+		3B04850D1C5E5E3700AB7A28 /* WBDiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04850C1C5E5E3700AB7A28 /* WBDiscoverViewController.swift */; };
+		3B04850F1C5E5E5800AB7A28 /* WBProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B04850E1C5E5E5800AB7A28 /* WBProfileViewController.swift */; };
 		3B30A0C01C5A058200AA6479 /* UIImage+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B30A0BF1C5A058200AA6479 /* UIImage+Panda.swift */; };
 		3B32DF3E1C55B60000BBBBF5 /* WBStatusHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B32DF3D1C55B60000BBBBF5 /* WBStatusHelper.swift */; };
 		3B32DF431C561B7900BBBBF5 /* ResourceWeibo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3B32DF421C561B7900BBBBF5 /* ResourceWeibo.bundle */; };
@@ -34,6 +40,8 @@
 		3BD32ED81C50DDB600D6C61E /* UIView+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED51C50DDB600D6C61E /* UIView+Panda.swift */; };
 		3BD32EDA1C50DDFD00D6C61E /* WBStatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */; };
 		3BD32EDC1C50DF0500D6C61E /* WBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD32EDB1C50DF0500D6C61E /* WBModel.swift */; };
+		3BE8C94A1C5B5441003BA829 /* CALayer+Panda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8C9491C5B5441003BA829 /* CALayer+Panda.swift */; };
+		3BE8C94E1C5B6978003BA829 /* WBPictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE8C94D1C5B6978003BA829 /* WBPictureView.swift */; };
 		3BEDF8AD1C5393FB008AF40C /* WBStatusLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */; };
 		3BEDF8B31C55082B008AF40C /* PandaCGUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BEDF8B21C55082B008AF40C /* PandaCGUtilities.swift */; };
 		44D56E8E065295140F3E6616 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF6BCBAFB4CF8E8659B8621 /* Pods.framework */; };
@@ -42,6 +50,15 @@
 /* Begin PBXFileReference section */
 		042FC467B2954CF545451BB1 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		2BF6BCBAFB4CF8E8659B8621 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B0484FE1C5E5D6B00AB7A28 /* CYLPlusButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYLPlusButton.h; sourceTree = "<group>"; };
+		3B0484FF1C5E5D6B00AB7A28 /* CYLPlusButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYLPlusButton.m; sourceTree = "<group>"; };
+		3B0485001C5E5D6B00AB7A28 /* CYLTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYLTabBar.h; sourceTree = "<group>"; };
+		3B0485011C5E5D6B00AB7A28 /* CYLTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYLTabBar.m; sourceTree = "<group>"; };
+		3B0485021C5E5D6B00AB7A28 /* CYLTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYLTabBarController.h; sourceTree = "<group>"; };
+		3B0485031C5E5D6B00AB7A28 /* CYLTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYLTabBarController.m; sourceTree = "<group>"; };
+		3B04850A1C5E5E2200AB7A28 /* WBMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBMessageViewController.swift; sourceTree = "<group>"; };
+		3B04850C1C5E5E3700AB7A28 /* WBDiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBDiscoverViewController.swift; sourceTree = "<group>"; };
+		3B04850E1C5E5E5800AB7A28 /* WBProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBProfileViewController.swift; sourceTree = "<group>"; };
 		3B30A0BF1C5A058200AA6479 /* UIImage+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Panda.swift"; sourceTree = "<group>"; };
 		3B32DF3D1C55B60000BBBBF5 /* WBStatusHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusHelper.swift; sourceTree = "<group>"; };
 		3B32DF421C561B7900BBBBF5 /* ResourceWeibo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ResourceWeibo.bundle; sourceTree = "<group>"; };
@@ -71,6 +88,8 @@
 		3BD32ED51C50DDB600D6C61E /* UIView+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Panda.swift"; sourceTree = "<group>"; };
 		3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusCell.swift; sourceTree = "<group>"; };
 		3BD32EDB1C50DF0500D6C61E /* WBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBModel.swift; sourceTree = "<group>"; };
+		3BE8C9491C5B5441003BA829 /* CALayer+Panda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Panda.swift"; sourceTree = "<group>"; };
+		3BE8C94D1C5B6978003BA829 /* WBPictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBPictureView.swift; sourceTree = "<group>"; };
 		3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBStatusLayout.swift; sourceTree = "<group>"; };
 		3BEDF8B11C53AFEF008AF40C /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		3BEDF8B21C55082B008AF40C /* PandaCGUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PandaCGUtilities.swift; sourceTree = "<group>"; };
@@ -89,6 +108,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B0484FC1C5E5D6300AB7A28 /* 3rd */ = {
+			isa = PBXGroup;
+			children = (
+				3B0484FD1C5E5D6B00AB7A28 /* CYLTabBarController */,
+			);
+			path = 3rd;
+			sourceTree = "<group>";
+		};
+		3B0484FD1C5E5D6B00AB7A28 /* CYLTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				3B0484FE1C5E5D6B00AB7A28 /* CYLPlusButton.h */,
+				3B0484FF1C5E5D6B00AB7A28 /* CYLPlusButton.m */,
+				3B0485001C5E5D6B00AB7A28 /* CYLTabBar.h */,
+				3B0485011C5E5D6B00AB7A28 /* CYLTabBar.m */,
+				3B0485021C5E5D6B00AB7A28 /* CYLTabBarController.h */,
+				3B0485031C5E5D6B00AB7A28 /* CYLTabBarController.m */,
+			);
+			path = CYLTabBarController;
+			sourceTree = "<group>";
+		};
+		3B0485071C5E5DC600AB7A28 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				3B04850A1C5E5E2200AB7A28 /* WBMessageViewController.swift */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
+		3B0485081C5E5DCD00AB7A28 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				3B04850C1C5E5E3700AB7A28 /* WBDiscoverViewController.swift */,
+			);
+			name = Discover;
+			sourceTree = "<group>";
+		};
+		3B0485091C5E5DDC00AB7A28 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				3B04850E1C5E5E5800AB7A28 /* WBProfileViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		3B32DF3C1C55B5F000BBBBF5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +192,7 @@
 		3BD32EA81C50DBCE00D6C61E /* Weibo-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				3B0484FC1C5E5D6300AB7A28 /* 3rd */,
 				3BD32EBB1C50DC8800D6C61E /* Weibo */,
 				3BD32EA91C50DBCE00D6C61E /* AppDelegate.swift */,
 				3BD32EAB1C50DBCE00D6C61E /* ViewController.swift */,
@@ -143,9 +208,12 @@
 		3BD32EBB1C50DC8800D6C61E /* Weibo */ = {
 			isa = PBXGroup;
 			children = (
+				3BEDF8AB1C51C5AD008AF40C /* Timeline */,
+				3B0485071C5E5DC600AB7A28 /* Message */,
+				3B0485081C5E5DCD00AB7A28 /* Discover */,
+				3B0485091C5E5DDC00AB7A28 /* Profile */,
 				3B32DF3F1C561B5D00BBBBF5 /* Resources */,
 				3B32DF3C1C55B5F000BBBBF5 /* Helper */,
-				3BEDF8AB1C51C5AD008AF40C /* Timeline */,
 				3BD32EBE1C50DD3500D6C61E /* JSON */,
 			);
 			name = Weibo;
@@ -192,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				3BEDF8B21C55082B008AF40C /* PandaCGUtilities.swift */,
+				3BE8C9491C5B5441003BA829 /* CALayer+Panda.swift */,
 			);
 			path = Quartz;
 			sourceTree = "<group>";
@@ -213,6 +282,7 @@
 				3BD32ED91C50DDFD00D6C61E /* WBStatusCell.swift */,
 				3BD32EDB1C50DF0500D6C61E /* WBModel.swift */,
 				3BEDF8AC1C5393FB008AF40C /* WBStatusLayout.swift */,
+				3BE8C94D1C5B6978003BA829 /* WBPictureView.swift */,
 			);
 			name = Timeline;
 			sourceTree = "<group>";
@@ -367,20 +437,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BD32ED71C50DDB600D6C61E /* UIColor+Panda.swift in Sources */,
+				3B04850F1C5E5E5800AB7A28 /* WBProfileViewController.swift in Sources */,
 				3B32DF4B1C5631A600BBBBF5 /* NSDate+Panda.swift in Sources */,
+				3B0485061C5E5D6B00AB7A28 /* CYLTabBarController.m in Sources */,
 				3B32DF451C561E9900BBBBF5 /* NSBundle+Panda.swift in Sources */,
 				3B32DF471C56231800BBBBF5 /* String+Panda.swift in Sources */,
+				3B04850B1C5E5E2200AB7A28 /* WBMessageViewController.swift in Sources */,
 				3BEDF8B31C55082B008AF40C /* PandaCGUtilities.swift in Sources */,
+				3BE8C94A1C5B5441003BA829 /* CALayer+Panda.swift in Sources */,
+				3BE8C94E1C5B6978003BA829 /* WBPictureView.swift in Sources */,
 				3BD32EDA1C50DDFD00D6C61E /* WBStatusCell.swift in Sources */,
 				3B32DF511C58748E00BBBBF5 /* Dictionary+Panda.swift in Sources */,
 				3B32DF3E1C55B60000BBBBF5 /* WBStatusHelper.swift in Sources */,
 				3BD32EDC1C50DF0500D6C61E /* WBModel.swift in Sources */,
 				3BEDF8AD1C5393FB008AF40C /* WBStatusLayout.swift in Sources */,
 				3BD32EAC1C50DBCE00D6C61E /* ViewController.swift in Sources */,
+				3B04850D1C5E5E3700AB7A28 /* WBDiscoverViewController.swift in Sources */,
+				3B0485041C5E5D6B00AB7A28 /* CYLPlusButton.m in Sources */,
 				3BD32EAA1C50DBCE00D6C61E /* AppDelegate.swift in Sources */,
 				3BD32EBD1C50DCE700D6C61E /* WBTimeLineViewController.swift in Sources */,
 				3BD32ED61C50DDB600D6C61E /* NSData+Panda.swift in Sources */,
 				3B30A0C01C5A058200AA6479 /* UIImage+Panda.swift in Sources */,
+				3B0485051C5E5D6B00AB7A28 /* CYLTabBar.m in Sources */,
 				3BD32ED81C50DDB600D6C61E /* UIView+Panda.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,39 +8,74 @@
 
 import UIKit
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var tabBarController: CYLTabBarController?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+//        self.window?.backgroundColor = UIColor.grayColor()
+        self.window = UIWindow()
+        self.window?.frame = UIScreen.mainScreen().bounds
+        self.setupViewControllers()
+        self.window?.rootViewController = self.tabBarController
+        self.window?.makeKeyAndVisible()
+        self.customizeInterface()
         return true
     }
+    
+    func setupViewControllers() {
+        CYLPlusButton.registerSubclass()
+        let firstViewController: WBTimeLineViewController = WBTimeLineViewController()
+        let firstNavigationController: UIViewController = UINavigationController(rootViewController:firstViewController)
+        
+        let secondViewController: WBMessageViewController = WBMessageViewController()
+        let secondNavigationController: UIViewController = UINavigationController(rootViewController: secondViewController)
+        
+        let thirdViewController: WBDiscoverViewController = WBDiscoverViewController()
+        let thirdNavigationController: UIViewController = UINavigationController(rootViewController: thirdViewController)
+        
+        let fourthViewController: WBProfileViewController = WBProfileViewController()
+        let fourthNavigationController: UIViewController = UINavigationController(rootViewController: fourthViewController)
+        
+        let tabBarController: CYLTabBarController! = CYLTabBarController()
+        self.customizeTabBarForController(tabBarController)
+        
+        tabBarController.viewControllers = [firstNavigationController, secondNavigationController, thirdNavigationController, fourthNavigationController]
 
-    func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        self.tabBarController = tabBarController
     }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    func customizeTabBarForController(tabBarController: CYLTabBarController){
+        let dict1 = [CYLTabBarItemTitle : "首页", CYLTabBarItemImage : "tabbar_home_os7", CYLTabBarItemSelectedImage : "tabbar_home_selected_os7"]
+        let dict2 = [CYLTabBarItemTitle : "消息", CYLTabBarItemImage : "tabbar_message_center_os7", CYLTabBarItemSelectedImage : "tabbar_message_center_selected_os7"]
+        let dict3 = [CYLTabBarItemTitle : "发现", CYLTabBarItemImage : "tabbar_discover_os7", CYLTabBarItemSelectedImage : "tabbar_discover_selected_os7"]
+        let dict4 = [CYLTabBarItemTitle : "我的", CYLTabBarItemImage : "tabbar_profile_os7", CYLTabBarItemSelectedImage : "tabbar_profile_selected_os7"]
+        
+        let tabBarItemsAttributes = [dict1, dict2, dict3, dict4]
+        tabBarController.tabBarItemsAttributes = tabBarItemsAttributes
     }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
+    func customizeInterface() {
+        self.setupTabBarItemTextAttributes()
     }
-
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    func setupTabBarItemTextAttributes() {
+        let normalAttrs = [NSForegroundColorAttributeName : UIColor.grayColor()]
+        let selectedAttrs = [NSForegroundColorAttributeName : UIColor.orangeColor()]
+        
+        let tabBar: UITabBarItem = UITabBarItem.appearance()
+        tabBar.setTitleTextAttributes(normalAttrs, forState: .Normal)
+        tabBar.setTitleTextAttributes(selectedAttrs, forState: .Highlighted)
+//        
+//        let tabBarAppearance: UITabBar = UITabBar.appearance()
+//        tabBarAppearance.backgroundImage = UIImage(named: "")
+    
+    
     }
-
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
 
 }
 

@@ -74,6 +74,8 @@ class WBStatusHelper {
                 group = WBEmoticonGroup(data: NSKeyedArchiver.archivedDataWithRootObject(plist!))
             }
         }
+        
+        
         if group?.emoticons != nil {
             for emotion: WBEmoticon in (group?.emoticons)! {
                 if emotion.png?.length == 0 { continue }
@@ -146,7 +148,7 @@ class WBStatusHelper {
             // replace "_y.png" with "_os7.png"
             if link.rangeOfString("_y.png?version") != nil{
                 let mutable = link
-                link = mutable.stringByReplacingOccurrencesOfString("_y.png?version",withString:"os7.png?version")
+                link = mutable.stringByReplacingOccurrencesOfString("_y.png?version",withString:"_os7.png?version")
             }
         }
         return NSURL(string: link)

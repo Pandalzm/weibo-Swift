@@ -12,4 +12,7 @@
 #import "YYText/YYText.h"
 #import "YYCache/YYCache.h"
 #import "YYImage/YYImage.h"
+#import "CYLTabBarController.h"
+#import "CYLTabBar.h"
+#import "CYLPlusButton.h"
 #endif /* Bridging_Header_h */

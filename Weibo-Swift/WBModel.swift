@@ -162,7 +162,7 @@ class WBUser {
     var verified: Bool      /// 大V认证
     var verifiedType: Int32     /// 认证类型
     var verifiedLevel: Int32        /// 认证等级
-    var userVerifyType: WBUserVerifyType = WBUserVerifyType.WBUserVerifyTypeNone    /// 认证类型(enum)
+    var userVerifyType: WBUserVerifyType = .WBUserVerifyTypeNone    /// 认证类型(enum)
     
     init? (json: JSON) {
         self.userID = json["id"].uInt64Value
@@ -198,27 +198,29 @@ class WBPicture {
     
     var objectID: String
     var keepSize: Bool              // true:固定为方形 false:原始宽高
-    var bmiddle: WBPictureMetadata  // cell中的缩略图   w: 360
-    var large: WBPictureMetadata    // 放大查看的图      w:720
+    var bmiddle: WBPictureMetadata!  // cell中的缩略图   w: 360
+    var large: WBPictureMetadata!    // 放大查看的图      w:720
+    var largest: WBPictureMetadata?  // 查看原图
     init? (json: JSON) {
         self.objectID = json["object_id"].stringValue
         self.keepSize = json["keep_size"].boolValue
-        self.bmiddle = WBPictureMetadata(json: json["bmiddle"])!
-        self.large = WBPictureMetadata(json: json["large"])!
+        self.bmiddle = WBPictureMetadata(json: json["bmiddle"])
+        self.large = WBPictureMetadata(json: json["large"])
+        self.largest = WBPictureMetadata(json: json["largest"])
         if json == nil {return nil}
     }
 }
 
 /// 微博图片的元数据
 class WBPictureMetadata {
-    var url: NSURL
+    var url: NSURL!
     var width: Int32
     var height: Int32
     var type: String    ///< "WEBP" "JPEG" "GIF"
     var cutType: Int32
     var badgeType: WBPictureBadgeType = WBPictureBadgeType.WBPictureBadgeTypeNone
     init? (json: JSON) {
-        self.url = NSURL(string: json["url"].stringValue)!
+        self.url = NSURL(string: json["url"].stringValue)
         self.width = json["width"].int32Value
         self.height = json["height"].int32Value
         self.type = json["type"].stringValue

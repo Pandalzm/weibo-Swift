@@ -39,6 +39,7 @@ let kWBCellNamePaddingLeft: CGFloat = 14                // 名字和头像的间
 let kWBCellPadding: CGFloat! = 12                       // cell内边框
 let kWBCellPaddingText: CGFloat = 10                    // 文本与其他元素的留白 e.g. "xxx 🐰 xxx"
 let kWBCellPaddingPic: CGFloat = 4                      // 多图间的留白
+let kWBCellContentWidth: CGFloat = kScreenWidth() - 2 * kWBCellPadding   // 内容宽度 kScreenWidth() - 2 * kWBCellPadding ---> | |xxxxxxxxx| |
 
 // 字体
 let kWBCellNameFontSize: CGFloat = 14        // 名字字体大小
@@ -56,8 +57,13 @@ let kWBCellToolbarTitleColor: UIColor! = UIColor(hexString:"929292")     // 工�
 let kWBCellNameNormalColor: UIColor! = UIColor(hexString: "333333")      // 名字颜色
 let kWBCellTimeNormalColor: UIColor! = UIColor(hexString: "828282")      // 时间颜色
 let kWBCellTextHighlightColor: UIColor! = UIColor(hexString: "527ead")   // 链接颜色
+let kWBCellTextHighlightBackgroundColor: UIColor! = UIColor(hexString: "bfdffe") // 点击链接背景颜色
 let kWBCellTextSubTitleColor: UIColor! = UIColor(hexString: "5d5d5d")    // 次要文本色(转发)
 let kWBCellTextNormalColor: UIColor! = UIColor(hexString: "333333")      // 一般文本色
+let kWBCellLineColor: UIColor! = UIColor(white: 0, alpha: 0.09)          // 线条颜色
+let kWBCellInnerViewColor: UIColor! = UIColor(hexString: "f7f7f7")       // 微博内部灰色卡片颜色
+let kWBCellInnerViewHighlightColor: UIColor! = UIColor(hexString: "f0f0f0")    // 微博内部灰色卡片高亮颜色
+let kWBCellHighlightColor: UIColor! = UIColor(hexString: "f0f0f0")       // 高亮颜色
 
 // 固定字符
 let kWBLinkHrefName: String! = "href"
@@ -68,7 +74,7 @@ let kWBLinkTagName: String! = "tag"
 /// 微博布局计算
 public class WBStatusLayout {
 
-    let kWBCellContentWidth: CGFloat                        // 内容宽度 kScreenWidth() - 2 * kWBCellPadding ---> | |xxxxxxxxx| |
+    
     //-------------------------------------------------------------------------------------------
 
     // 数据
@@ -135,7 +141,6 @@ public class WBStatusLayout {
     
     init? (status: WBStatus) {
         self.status = status
-        self.kWBCellContentWidth = kScreenWidth() - 2 * kWBCellPadding
         if status.user == nil {return nil}
         // 进行布局计算
         self.layout()
@@ -212,8 +217,10 @@ public class WBStatusLayout {
     func layoutName() {
         let user:WBUser = self.status.user!
         var nameStr: String!
-        if user.remark != nil && user.remark!.characters.count > 0 {
+        if user.remark != nil && user.remark!.length > 0 {
             nameStr = user.remark!
+        } else if user.screenName != nil && user.screenName!.length > 0 {
+             nameStr = user.screenName!
         } else {
             nameStr = user.name!
         }
@@ -225,7 +232,7 @@ public class WBStatusLayout {
         let nameText: NSMutableAttributedString = NSMutableAttributedString(string: nameStr)
         
         // 蓝V
-        if user.userVerifyType == WBUserVerifyType.WBUserVerifyTypeClub {
+        if user.userVerifyType == .WBUserVerifyTypeOrganization {
             let blueVImage: UIImage = WBStatusHelper().imageNamed("avatar_enterprise_vip")!
             let blueVText: NSAttributedString = self.attachment(kWBCellNameFontSize, image: blueVImage, shrink: false)
             nameText.yy_appendString(" ")
@@ -261,6 +268,7 @@ public class WBStatusLayout {
             timeText.yy_appendString("  ")
             timeText.yy_font = UIFont.systemFontOfSize(kWBCellSourceFontSize)
             timeText.yy_color = kWBCellTimeNormalColor
+            sourceText.appendAttributedString(timeText)
         }
         
         // 来自 XXX
@@ -272,22 +280,22 @@ public class WBStatusLayout {
                 static var onceToken: dispatch_once_t = 0
             }
             dispatch_once(&Static.onceToken, { () -> Void in
-                Static.hrefRegex = try! NSRegularExpression(pattern:"(?<=href=\").+(?=\" )", options: .CaseInsensitive)
-                Static.textRegex = try! NSRegularExpression(pattern:"(?<=>).+(?=<)", options: .CaseInsensitive)
+                Static.hrefRegex = try! NSRegularExpression(pattern:"(?<=href=\").+(?=\" )", options: [])
+                Static.textRegex = try! NSRegularExpression(pattern:"(?<=>).+(?=<)", options: [])
             })
             
             var hrefResult: NSTextCheckingResult?
             var textResult: NSTextCheckingResult?
-            var href: NSString?
-            var text: NSString?
-            hrefResult = Static.hrefRegex.firstMatchInString(self.status.source, options:[], range: NSMakeRange(0, self.status.source.characters.count))!
-            textResult = Static.hrefRegex.firstMatchInString(self.status.source, options:[], range: NSMakeRange(0, self.status.source.characters.count))!
+            var href: NSString!
+            var text: NSString!
+            hrefResult = Static.hrefRegex.firstMatchInString(self.status.source, options:[], range: NSMakeRange(0, self.status.source.length))
+            textResult = Static.textRegex.firstMatchInString(self.status.source, options:[], range: NSMakeRange(0, self.status.source.length))
             if hrefResult != nil && textResult != nil && hrefResult!.range.location != NSNotFound && textResult!.range.location != NSNotFound {
                 href = (self.status.source as NSString).substringWithRange(hrefResult!.range)
                 text = (self.status.source as NSString).substringWithRange(textResult!.range)
             }
-            if href != nil && text != nil && href?.length > 0 && text?.length > 0 {
-                let from: NSMutableAttributedString = NSMutableAttributedString()
+            if href != nil && text != nil && href!.length > 0 && text!.length > 0 {
+                let from: NSMutableAttributedString! = NSMutableAttributedString()
                 from.yy_appendString("来自 \(text)")
                 from.yy_font = UIFont.systemFontOfSize(kWBCellSourceFontSize)
                 from.yy_color = kWBCellTimeNormalColor
@@ -295,12 +303,12 @@ public class WBStatusLayout {
                     let range: NSRange! = NSMakeRange(3, text!.length)
                     from.yy_setColor(kWBCellTextHighlightColor, range: range)
                     
-                    let backed: YYTextBackedString = YYTextBackedString(string: (href as! String))
+                    let backed: YYTextBackedString = YYTextBackedString(string: (href as String))
                     from.yy_setTextBackedString(backed, range: range)
                     
                     let border: YYTextBorder = YYTextBorder()
                     border.insets = UIEdgeInsetsMake(-2, 0, -2, 0)
-                    border.fillColor = kWBCellTextHighlightColor
+                    border.fillColor = kWBCellTextHighlightBackgroundColor
                     border.cornerRadius = 3
                     
                     let highlight: YYTextHighlight = YYTextHighlight()
@@ -430,7 +438,7 @@ public class WBStatusLayout {
         
         self.retweetHeight = self.retweetTextHeight
         if self.retweetPicHeight > 0 {  // 两者只能存在一个
-            self.retweetHeight += self.retweetHeight
+            self.retweetHeight += self.retweetPicHeight
             self.retweetHeight += kWBCellPadding // padding
         } else if self.retweetCardHeight > 0 {
             self.retweetHeight += self.retweetCardHeight
@@ -642,21 +650,21 @@ public class WBStatusLayout {
         
         switch (status!.pics.count) {
         case 1:
-            let pic: WBPicture! = status?.pics.first
-            let bmiddle: WBPictureMetadata = pic.bmiddle
-            if pic.keepSize == true || bmiddle.width < 1 || bmiddle.height < 1 {            // 单图 为正方形的时候
+            let pic: WBPicture? = self.status.pics.first
+            let bmiddle: WBPictureMetadata? = pic?.bmiddle
+            if pic?.keepSize == true || bmiddle?.width < 1 || bmiddle?.height < 1 {            // 单图 为正方形的时候
                 var maxLen: CGFloat = kWBCellContentWidth / 2.0
                 maxLen = CGFloatPixelRound(maxLen)
                 picSize = CGSizeMake(maxLen, maxLen)
                 picHeight = maxLen
             } else {
                 let maxlen: CGFloat = len1_3 * 2 + kWBCellPaddingPic
-                if bmiddle.width < bmiddle.height {
-                    picSize.width = CGFloat(bmiddle.width) / CGFloat(bmiddle.height) * maxlen
+                if bmiddle?.width < bmiddle?.height {
+                    picSize.width = CGFloat((bmiddle?.width)!) / CGFloat((bmiddle?.height)!) * maxlen
                     picSize.height = maxlen
                 } else {
                     picSize.width = maxlen
-                    picSize.height = CGFloat(bmiddle.height) / CGFloat(bmiddle.width) * maxlen
+                    picSize.height = CGFloat((bmiddle?.height)!) / CGFloat((bmiddle?.width)!) * maxlen
                 }
                 picSize = CGSizePixelRound(picSize)
                 picHeight = picSize.height
@@ -705,7 +713,7 @@ public class WBStatusLayout {
         let highlightBorder: YYTextBorder = YYTextBorder()  // 高亮状态的背景
         highlightBorder.insets = UIEdgeInsetsMake(-2, 0, -2, 0)
         highlightBorder.cornerRadius = 3
-        highlightBorder.fillColor = kWBCellTextHighlightColor
+        highlightBorder.fillColor = kWBCellTextHighlightBackgroundColor
         
         let text: NSMutableAttributedString = NSMutableAttributedString(string: string)
         text.yy_font = font
@@ -838,7 +846,6 @@ public class WBStatusLayout {
             if image == nil { continue }
             
             let emoText: NSAttributedString = NSAttributedString.yy_attachmentStringWithEmojiImage(image, fontSize: fontSize)
-            
             text.replaceCharactersInRange(range, withAttributedString: emoText)
             emoClipLength += range.length - 1
         }
@@ -895,11 +902,12 @@ public class WBStatusLayout {
         delegate.descent = descent
         delegate.width = bounding.size.width
         
-        let attachment = WBTextImageViewAttachment()
+        let attachment = YYTextAttachment()
         attachment.contentMode = UIViewContentMode.ScaleAspectFit
+        attachment.contentInsets = contentInsets
         attachment.content = image
         
-        if shrink {
+        if shrink == true {
             let scale: CGFloat = 1 / 10.0
             contentInsets.top += fontSize * scale
             contentInsets.bottom += fontSize * scale
@@ -941,7 +949,6 @@ class WBTextImageViewAttachment: YYTextAttachment {
             self.imageView = UIImageView()
             self.imageView = content
         }
-    
     }
 }
 
